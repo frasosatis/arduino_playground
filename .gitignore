@@ -1,0 +1,3 @@
+# Stino package creates .hex files after compilation,
+# these should not be put into git
+*.hex

@@ -20,6 +20,10 @@ void setup()
   Serial.begin(9600);
 
   Serial.println("Running blinking LED example with loop...");
+  Serial.println("send '+' and '-' to increase/decrease interval");
+
+  Serial.print("Interval set to ");
+  Serial.println(interval);
 
   // set the digital pin as output:
   pinMode(ledPin, OUTPUT);
