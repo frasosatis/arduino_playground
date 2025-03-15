@@ -1,2 +1,6 @@
-*.ino linguist-language=C
+#
+# Ok, I got it... Arduino language is really C++ and not C.
+# Sorry, github :)
+#
+#*.ino linguist-language=C
 
