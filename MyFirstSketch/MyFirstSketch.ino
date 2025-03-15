@@ -1,5 +1,18 @@
+/*
+** MyFirstSketch.ino
+** located in a directory MyFirstSketch/ as otherwise the Arduino IDE does not
+** like to open the sketch.
+**
+** In addition to the built-in LED, this example will use the serial port and
+** also an additional Digital IO at Pin 10 for a second LED which is located
+** on the breadboard and secured with a 330 Ohm resistor.
+**
+** E.g. Wire -> D10 -> Resistor -> LED (long Pin)
+**      Wire <- GND <- LED (short Pin)
+*/
 // constants won't change. Used here to set a pin number:
-const int ledPin = LED_BUILTIN;  // the number of the LED pin
+const int led1Pin = LED_BUILTIN; // built in LED
+const int led2Pin = 10; // use small breadboard, 330 Ohm resistor for
 
 // Variables will change:
 int ledState = LOW;  // ledState used to set the LED
@@ -12,7 +25,7 @@ unsigned long previousMillis = 0;  // will store last time LED was updated
 long interval = 1000;  // interval at which to blink (milliseconds)
 
 // via the serial port ..
-int inByte = 0;        // incoming serial byte
+byte inByte = 0;        // incoming serial byte
 
 void setup() 
 {
@@ -26,7 +39,8 @@ void setup()
   Serial.println(interval);
 
   // set the digital pin as output:
-  pinMode(ledPin, OUTPUT);
+  pinMode(led1Pin, OUTPUT);
+  pinMode(led2Pin, OUTPUT);
 }
 
 void loop() 
@@ -55,21 +69,22 @@ void loop()
       Serial.println("LOW");
     }
 
-    // set the LED with the ledState of the variable:
-    digitalWrite(ledPin, ledState);
+    // set the LEDs with the ledState of the variable:
+    digitalWrite(led1Pin, ledState);
+    digitalWrite(led2Pin, ledState);
 
     if ( Serial.available() > 0)
     {
       inByte = Serial.read();
       Serial.print("Received: ");
       Serial.println(inByte);
-      if ( inByte == 45 )
+      if ( inByte == '-' )
       {
         interval -= 250;
         Serial.print("Interval set to ");
         Serial.println(interval);
       }
-      else if ( inByte == 43 )
+      else if ( inByte == '+' )
       {
         interval += 250;
         Serial.print("Interval set to ");

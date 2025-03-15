@@ -20,7 +20,8 @@ good. It *hides* some stuff from the programmer which might be good for
 new programmers but a bit questionable for people who know what is
 going on. Anyway... The Arduino language is more C++ than I expected.
 
-Tested with the "first" example which is also available here. Bear with me, it was the very first Arduino example :)
+Tested with the "MyFirstSketch" example which is also available here.
+Bear with me, it was the very first Arduino example :)
 
 Btw: Errors in Linux Mint (or whatever) when uploading, I  had to insert
 into `etc/udev/rules.d/99-arduino.rules` the following line:
