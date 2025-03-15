@@ -23,7 +23,7 @@ unsigned long previousMillis = 0;  // will store last time LED was updated
 
 // Variable, as we want to change this
 long interval = 1000;  // interval at which to blink (milliseconds)
-
+byte count = 1; // wraps around after 255 has been reached
 // via the serial port ..
 byte inByte = 0;        // incoming serial byte
 
@@ -34,6 +34,7 @@ void setup()
 
   Serial.println("Running blinking LED example with loop...");
   Serial.println("send '+' and '-' to increase/decrease interval");
+  Serial.println("send 'r' to reset to default interval, external LED dark");
 
   Serial.print("Interval set to ");
   Serial.println(interval);
@@ -61,7 +62,7 @@ void loop()
     if (ledState == LOW) 
     {
       ledState = HIGH;
-      Serial.println("HIGH");
+      Serial.print("HIGH ");
     } 
     else 
     {
@@ -71,8 +72,11 @@ void loop()
 
     // set the LEDs with the ledState of the variable:
     digitalWrite(led1Pin, ledState);
-    digitalWrite(led2Pin, ledState);
-
+    analogWrite(led2Pin, count++);
+    if ( ledState == HIGH )
+    {
+      Serial.println(count);
+    }
     if ( Serial.available() > 0)
     {
       inByte = Serial.read();
@@ -81,6 +85,10 @@ void loop()
       if ( inByte == '-' )
       {
         interval -= 250;
+        if ( interval < 0 )
+        {
+          interval = 100;
+        }
         Serial.print("Interval set to ");
         Serial.println(interval);
       }
@@ -88,6 +96,13 @@ void loop()
       {
         interval += 250;
         Serial.print("Interval set to ");
+        Serial.println(interval);
+      }
+      else if ( inByte == 'r' )
+      {
+        interval = 1000;
+        count = 1;
+        Serial.print("Reset; Interval set to ");
         Serial.println(interval);
       }
     }
